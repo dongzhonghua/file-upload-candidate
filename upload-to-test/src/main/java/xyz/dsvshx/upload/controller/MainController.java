@@ -1,5 +1,7 @@
 package xyz.dsvshx.upload.controller;
 
+import java.util.ArrayList;
+
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -9,8 +11,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
-
-import com.alibaba.nacos.api.exception.NacosException;
 
 import xyz.dsvshx.upload.model.InstanceResult;
 import xyz.dsvshx.upload.model.Result;
@@ -37,10 +37,14 @@ public class MainController {
 
 
     @RequestMapping(value = "all-instance", method = RequestMethod.GET)
-    public Result<InstanceResult> allInstance() throws NacosException {
-        InstanceResult res = new InstanceResult(HostUtils.getHostName(), nacosService.getAllHostInfo());
-        System.out.println(res);
-        return Result.success(res);
+    public Result<InstanceResult> allInstance() {
+        try {
+            InstanceResult res = new InstanceResult(HostUtils.getHostName(), nacosService.getAllHostInfo());
+            System.out.println(res);
+            return Result.success(res);
+        } catch (Exception e) {
+            return Result.success(new InstanceResult("", new ArrayList<>()));
+        }
     }
 
     @PostMapping("/upload")

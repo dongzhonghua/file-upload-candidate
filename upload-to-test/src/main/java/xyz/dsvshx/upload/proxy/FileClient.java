@@ -1,7 +1,6 @@
 package xyz.dsvshx.upload.proxy;
 
 import java.io.File;
-import java.io.IOException;
 
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -23,9 +22,8 @@ import xyz.dsvshx.upload.model.UploadFileApi;
 public class FileClient {
     public Result<String> uploadFile(MultipartFile file,
             String targetPath, String proxyServer) {
-        System.out.println("-------------" + proxyServer);
-        File f = new File("/tmp/xxx");
         try {
+            File f = new File("/tmp/xxx");
             file.transferTo(f);
             //文件上传
             Retrofit retrofit = new Retrofit.Builder()
@@ -38,7 +36,7 @@ public class FileClient {
                     retrofit.create(UploadFileApi.class).upload(part, targetPath, null)
                             .execute();
             return execute.body();
-        } catch (IOException e) {
+        } catch (Exception e) {
             return Result.success(e.getMessage());
         }
     }

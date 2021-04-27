@@ -13,16 +13,17 @@ import org.springframework.web.multipart.MultipartFile;
 @Service
 public class FileService {
     public String saveFile(MultipartFile file, String targetPath) {
-        //获取上传文件名,包含后缀
-        String originalFilename = file.getOriginalFilename();
-        //生成保存文件
-        File uploadFile = new File(targetPath + "/" + originalFilename);
-        //将上传文件保存到路径
         try {
+            //获取上传文件名,包含后缀
+            String originalFilename = file.getOriginalFilename();
+            //生成保存文件
+            File uploadFile = new File(targetPath + "/" + originalFilename);
+            //将上传文件保存到路径
             file.transferTo(uploadFile);
+            return uploadFile.getAbsolutePath();
         } catch (IOException e) {
             e.printStackTrace();
+            return e.getMessage();
         }
-        return uploadFile.getAbsolutePath();
     }
 }

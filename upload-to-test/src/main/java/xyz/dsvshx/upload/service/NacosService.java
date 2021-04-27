@@ -6,7 +6,6 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import com.alibaba.nacos.api.exception.NacosException;
 import com.alibaba.nacos.api.naming.NamingFactory;
 import com.alibaba.nacos.api.naming.NamingService;
 import com.alibaba.nacos.api.naming.pojo.Instance;
@@ -26,7 +25,7 @@ public class NacosService {
     @Value("${server.port}")
     private int port;
 
-    public List<HostInfo> getAllHostInfo() throws NacosException {
+    public List<HostInfo> getAllHostInfo() throws Exception {
         NamingService naming = NamingFactory.createNamingService(nacosServer);
         List<Instance> allInstances = naming.getAllInstances(applicationName);
         return allInstances.stream().map(instance -> new HostInfo(
