@@ -6,6 +6,8 @@ import java.io.IOException;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import xyz.dsvshx.upload.util.HostUtils;
+
 /**
  * @author dongzhonghua
  * Created on 2021-04-24
@@ -20,7 +22,7 @@ public class FileService {
             File uploadFile = new File(targetPath + "/" + originalFilename);
             //将上传文件保存到路径
             file.transferTo(uploadFile);
-            return uploadFile.getAbsolutePath();
+            return "机器：" + HostUtils.getHostName() + ", 文件夹：" + uploadFile.getAbsolutePath();
         } catch (IOException e) {
             e.printStackTrace();
             return e.getMessage();
